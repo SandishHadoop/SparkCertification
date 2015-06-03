@@ -17,12 +17,13 @@ object SprakCassandra {
     val rdd = sc.cassandraTable("test", "kv") 
     println("Valu: "+rdd.count)
     println("Valu: "+rdd.first)
-    println("Valu: "+rdd.map(_.getInt("value")).sum) 
-
+    //println("Valu: "+rdd.map(_.getInt("value")).sum) 
+    
     val collection = sc.parallelize(Seq(("key3", 3), ("key4", 4)))
     collection.saveToCassandra("test", "kv", SomeColumns("key", "value"))
     val people = sc.textFile("/conf/people.txt").map(_.split(",")).map(p => Person(p(0), p(1).trim.toInt))
     people.saveAsCassandraTable("test", "kv2", SomeColumns("name", "age"))
+     
     sc.stop()
   }
 }
